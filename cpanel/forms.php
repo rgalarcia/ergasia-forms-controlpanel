@@ -48,9 +48,9 @@
 			//to show them on screen
 			$( document.body ).on("click", "#add_all_cats", function() {
 				var i = 1;
-				while ( $("#cat".concat(i)).val() != undefined && $("#cat".concat(i)).val().trim() != "")
+				while ( $("#cat".concat(i)).val() != undefined)
 				{		
-					if (((i <= 9 && $("#cat".concat(i)).prop('checked')) || i > 9))
+					if ( (i <= 9 && $("#cat".concat(i)).prop('checked')) || (i > 9 && $("#cat".concat(i)).val().trim() != "") )
 					{
 						categories.push($("#cat".concat(i)).val());		  
 					}
@@ -67,6 +67,8 @@
 				else $( "#multipurpose" ).append("<br><button type=\"button\" id=\"append_questions\" class=\"btn btn-success\">Crear preguntes</button>");
 			});
   
+			console.log(categories);
+			console.log(preguntes);
 			//Append number of questions for category to an array
 			$( document.body ).on("click", "#append_questions", function() {
 				var i = 0;
