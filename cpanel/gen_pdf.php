@@ -65,29 +65,29 @@ $business = $result["business"];
 $nif = $result["NIF"];
 $form = $result["form"];
 $obra = $a_result["obra"];
-$timestamp = 1;
+$timestamp = $a_result["timestamp"];
 
 class PDF extends FPDF
 {
-function Header()
-{
-    $this->Image('logo.png',10,8,33);
-    $this->SetFont('Arial','B',15);
-    $this->Cell(80);
-    $this->Cell(80,10,'RESPOSTA AL FORMULARI',1,0,'C');
-    $this->Ln(20);
-}
+	function Header()
+	{
+		$this->Image('logo.png',10,8,33);
+		$this->SetFont('Arial','B',15);
+		$this->Cell(80);
+		$this->Cell(80,10,'RESPOSTA AL FORMULARI',1,0,'C');
+		$this->Ln(20);
+	}
 
-function Footer()
-{
-	$timestamp = time();
-    $this->SetY(-15);
-    $this->SetFont('Arial','I',8);
-	$this->Cell(0,5,utf8_decode('Pàgina '.$this->PageNo().''),0,0,'C');
-	$this->Ln();
-    $this->Cell(0,5,utf8_decode('Document generat el '. date("d/m/Y", $timestamp) . ' a les '. date("H:i:s", $timestamp) .''),0,0,'C');
+	function Footer()
+	{
+		$timestamp = time();
+		$this->SetY(-15);
+		$this->SetFont('Arial','I',8);
+		$this->Cell(0,5,utf8_decode('Pàgina '.$this->PageNo().''),0,0,'C');
+		$this->Ln();
+		$this->Cell(0,5,utf8_decode('Document generat el '. date("d/m/Y", $timestamp) . ' a les '. date("H:i:s", $timestamp) .''),0,0,'C');
 
-}
+	}
 }
 
 $pdf = new PDF();
