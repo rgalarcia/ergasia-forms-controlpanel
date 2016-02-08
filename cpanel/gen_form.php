@@ -22,18 +22,31 @@ $status = array();
 //Separating categories and questions for each category and inserting them into two different strings
 for ($i = 0; $i < count($jsondata); $i++)
 {
-	if ($i != count($jsondata)-1) $categories = $categories . $jsondata[$i][0] . "|";
-	else $categories = $categories . $jsondata[$i][0];
-	
+	$notnullq = 0;
 	for ($j = 2; $j < count($jsondata[$i]); $j++)
 	{
-		if ($j != count($jsondata[$i])-1 && $i != count($jsondata)-1) $questions = $questions . $jsondata[$i][$j] . "|";
-		else if ($j != count($jsondata[$i])-1 && $i == count($jsondata)-1) $questions = $questions . $jsondata[$i][$j] . "|";
-		else if ($i != count($jsondata)-1) $questions = $questions . $jsondata[$i][$j] . "#";
-		else $questions = $questions . $jsondata[$i][$j];
+		if (trim($jsondata[$i][$j]) != "")
+		{
+			if ($j != count($jsondata[$i])-1 && $i != count($jsondata)-1) $questions = $questions . $jsondata[$i][$j] . "|";
+			else if ($j != count($jsondata[$i])-1 && $i == count($jsondata)-1) $questions = $questions . $jsondata[$i][$j] . "|";
+			else if ($i != count($jsondata)-1) $questions = $questions . $jsondata[$i][$j] . "#";
+			else $questions = $questions . $jsondata[$i][$j];
+			
+			$notnullq++;
+		}
 	}
 	
+	if ($notnullq != 0)
+	{
+		if ($i != count($jsondata)-1) $categories = $categories . $jsondata[$i][0] . "|";
+		else $categories = $categories . $jsondata[$i][0];
+	}
 }
+
+trim($categories, "|");
+trim($questions, "|");
+trim($categories, "#");
+trim($questions, "#");
 
 //Inserting the 
 $link = mysqli_connect($sql_host, $sql_user, $sql_pass, $sql_db);
@@ -119,7 +132,7 @@ if ($query)
 		$counter = 0;
 		for ($j = 2; $j < count($jsondata[$i]); $j++)
 		{
-			if ($jsondata[$i][$j] != "") $counter++;
+			if (trim($jsondata[$i][$j]) != "") $counter++;
 		}
 		
 		if ($counter != 0)

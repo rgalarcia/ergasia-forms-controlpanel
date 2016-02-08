@@ -45,7 +45,7 @@
 
 			$( document.body ).on("click", "#genformbutton", function() {
 				var i = 1;
-				while ( $("#cat".concat(i)).val() != undefined )
+				while ( $("#cat".concat(i)).val() != undefined && $("#cat".concat(i)).val().trim() != "")
 				{		
 					if (((i <= 9 && $("#cat".concat(i)).prop('checked')) || i > 9) && $("#cat".concat(i)).val() != "")
 					{
@@ -69,7 +69,7 @@
 			$( document.body ).on("click", "#genform2button", function() {
 				var i = 0;
 				var npreg = 0;
-				while ($("#numpc".concat(i)).val() != undefined)
+				while ($("#numpc".concat(i)).val() != undefined && $("#numpc".concat(i)).val().trim() != "")
 				{
 					numpreguntes.push($("#numpc".concat(i)).val());
 					if ($("#numpc".concat(i)).val() != "") npreg++;
@@ -96,7 +96,7 @@
 			$( document.body ).on("click", "#genformfinal", function() {
 				var i = 0;
 				var npreg = 0;
-				while ($("#numpc".concat(i)).val() != undefined)
+				while ($("#numpc".concat(i)).val() != undefined && $("#numpc".concat(i)).val().trim() != "")
 				{
 					preguntes.push($("#numpc".concat(i)).val());
 					if ($("#numpc".concat(i)).val() != "") npreg++;
