@@ -36,18 +36,40 @@
 		$length = count($_POST)-1;
 		foreach ($_POST as $key => $value)
 		{
-			$commanotcomma = $answers==""?"":"|";
+			if (($key%2)==1)
+			{
+				$commanotcomma = $answers==""?"":"|";
+			}
+			else if (($key%2)==0)
+			{
+				$commanotcomma = $answers==""?"":"#";		
+			}
+			
 			if ($key != 0 && $key != $length) $answers = $answers . $commanotcomma . $value;
 		}
+		$timestamp = time();
 		
-		$link = mysqli_connect ($sql_host, $sql_user, $sql_pass, $sql_db);
-		$query2 = mysqli_query ($link, "UPDATE `users` SET `answered`=1 WHERE `telf`=\"".mysqli_real_escape_string($link, $telf)."\"");
-		$query = mysqli_query ($link, "INSERT INTO `uanswers`(`form`,`telf`,`obra`,`answers`,`comment`) VALUES (\"".mysqli_real_escape_string($link, $form)."\", 
-		\"".mysqli_real_escape_string($link, $telf)."\", \"".mysqli_real_escape_string($link, $obra)."\", \"".mysqli_real_escape_string($link, $answers)."\",
-		 \"".mysqli_real_escape_string($link, $comment)."\")");
+		$link = mysqli_connect($sql_host, $sql_user, $sql_pass, $sql_db);
+		$query3 = mysqli_query($link, "SELECT `form`, `answered` FROM `users` WHERE `telf`=\"".mysqli_real_escape_string($link, $telf)."\"");
+		$result = mysqli_fetch_array($query);
+		
+		if ($result["form"] == $form)
+		{
+			if ($result["answered"] != 1)
+			{
+				$query2 = mysqli_query($link, "UPDATE `users` SET `answered`=1 WHERE `telf`=\"".mysqli_real_escape_string($link, $telf)."\"");
+				$query = mysqli_query($link, "INSERT INTO `uanswers`(`form`,`telf`,`obra`,`answers`,`comment`,`timestamp`) VALUES (\"".mysqli_real_escape_string($link, $form)."\", 
+				\"".mysqli_real_escape_string($link, $telf)."\", \"".mysqli_real_escape_string($link, $obra)."\", \"".mysqli_real_escape_string($link, $answers)."\",
+				\"".mysqli_real_escape_string($link, $comment)."\", \"".mysqli_real_escape_string($link, $timestamp)."\")");
 
-		if (!$query) echo "<div class=\"alert alert-danger\" role=\"alert\">Error de comunicación con la base de datos. Vuelva a intentarlo más tarde.</div>";
-		else echo "<div class=\"alert alert-success\" role=\"alert\">Gracias por contestar. Este formulario volverá a estar disponible la semana siguiente.</div>";
+				if (!$query) echo "<div class=\"alert alert-danger\" role=\"alert\">Error de comunicación con la base de dades. Vuelva a intentar-lo más tarde.</div>";
+				else echo "<div class=\"alert alert-success\" role=\"alert\">Gracias por contestar. Este formulario volverá a estar disponible la semana que viene.</div>";
+			}
+			else
+			{
+				echo "<div class=\"alert alert-success\" role=\"alert\">Ya ha contestado este formulario. Volverá a estar disponible la semana que viene.</div>";			
+			}
+		}
 		?>
 		<hr>
 		<footer>
