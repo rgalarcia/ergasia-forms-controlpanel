@@ -60,7 +60,7 @@
 			<div class="form-group">
 				<?php
 				// User's alert/warning system
-				if(isset($_GET["result"]) && $_GET["result"] != NULL)
+				if (isset($_GET["result"]) && $_GET["result"] != NULL)
 				{	
 					$result = $_GET["result"];
 					
