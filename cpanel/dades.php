@@ -204,7 +204,7 @@ mysqli_close($link);
 									echo "<td>" . $data_array["name"] . "</td>";
 									echo "<td>" . $data_array["business"] . "</td>";
 									echo "<td>" . $data_array["NIF"] . "</td>";
-									echo "<td><a target =\"_blank\" href=\"../form/form" . $data_array["form"] . ".php\">Formulari " . $data_array["form"] . "</a></td>";
+									echo "<td><a target =\"_blank\" href=\"../form/form" . $data_array["form"] . ".php?master\">Formulari " . $data_array["form"] . "</a></td>";
 									echo "<td>" . $resposta . "</td>";
 									
 									if($options != "edit")
@@ -255,7 +255,7 @@ mysqli_close($link);
 									echo "<td>" . $data_array["name"] . "</td>";
 									echo "<td>" . $data_array["business"] . "</td>";
 									echo "<td>" . $data_array["NIF"] . "</td>";
-									echo "<td><a target =\"_blank\" href=\"../form/form" . $data_array["form"] . ".php\">Formulari " . $data_array["form"] . "</a></td>";
+									echo "<td><a target =\"_blank\" href=\"../form/form" . $data_array["form"] . ".php?master\">Formulari " . $data_array["form"] . "</a></td>";
 									echo "<td>" . $resposta . "</td>";
 									echo "<td>
 									<a href=\"dades.php?edit=" . $data_array["telf"] . "\">
@@ -320,7 +320,7 @@ mysqli_close($link);
 					switch (event.which)
 					{
 						case 3:
-							var wdow = window.open('../form/form$i.php', '_blank');
+							var wdow = window.open('../form/form$i.php?master', '_blank');
 							if (wdow == undefined)
 							{
 								alert(\"Si us plau, activi els pop-ups pel Panell de control.\");

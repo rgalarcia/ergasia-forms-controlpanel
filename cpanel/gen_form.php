@@ -45,7 +45,36 @@ if ($query)
 	$file = "../form/form".$idform.".php";
 	
 	// <head> of the form's HTML code
-	$head = "<!DOCTYPE html>
+	$head = "<?php 
+	if (!isset(\$_GET[\"master\"]))
+	{
+		if (isset(\$_GET[\"telf\"]) && \$_GET[\"telf\"] != NULL)
+		{
+			include \"sql_data.php\";
+			\$telf = \$_GET[\"telf\"];
+			\$link = mysqli_connect(\$sql_host, \$sql_user, \$sql_pass, \$sql_db);
+			\$query = mysqli_query(\$link, \"SELECT * FROM `users` WHERE `telf` = \".mysqli_real_escape_string(\$link,\$telf).\"\");
+			\$result = mysqli_fetch_array(\$query);
+			
+			\$uri = explode (\"?\", \$_SERVER[\"REQUEST_URI\"]);
+			\$supposed_form = filter_var (\$uri[0], FILTER_SANITIZE_NUMBER_INT);
+			\$form = \$result[\"form\"];
+			\$answered = \$result[\"answered\"];
+			
+			if (\$form != \$supposed_form) die();
+
+			if(\$answered == 1)
+			{
+				die(\"<div class='alert alert-success' role='alert'>Ya ha contestado este formulario. Volver&aacute; a estar disponible la semana siguiente.</div>\");
+			}
+		}
+		else
+		{
+			die();
+		}
+	}
+	?>
+<!DOCTYPE html>
 <html lang=\"ca\">
 
 <head>

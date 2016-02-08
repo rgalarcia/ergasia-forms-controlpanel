@@ -160,7 +160,7 @@
 					switch (event.which)
 					{
 						case 3:
-							var wdow = window.open('../form/form$i.php', '_blank');
+							var wdow = window.open('../form/form$i.php?master', '_blank');
 							if (wdow == undefined)
 							{
 								alert(\"Si us plau, activi els pop-ups pel Panell de control.\");
