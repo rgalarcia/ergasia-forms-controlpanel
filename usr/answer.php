@@ -51,7 +51,7 @@
 		
 		$link = mysqli_connect($sql_host, $sql_user, $sql_pass, $sql_db);
 		$query3 = mysqli_query($link, "SELECT `form`, `answered` FROM `users` WHERE `telf`=\"".mysqli_real_escape_string($link, $telf)."\"");
-		$result = mysqli_fetch_array($query);
+		$result = mysqli_fetch_array($query3);
 		
 		if ($result["form"] == $form)
 		{
