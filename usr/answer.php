@@ -34,19 +34,23 @@
 		$obra = $_POST["obra"];
 		$comment = $_POST["comment"];
 		$length = count($_POST)-1;
+
+		$key2 = 0;
 		foreach ($_POST as $key => $value)
 		{
-			if (($key%2)==1)
+			if (($key2%2)==1)
 			{
-				$commanotcomma = $answers==""?"":"|";
+				$commanotcomma = $answers==""?"":"#";
 			}
-			else if (($key%2)==0)
+			else if (($key2%2)==0)
 			{
-				$commanotcomma = $answers==""?"":"#";		
+				$commanotcomma = $answers==""?"":"|";		
 			}
 			
 			if ($key != 0 && $key != $length) $answers = $answers . $commanotcomma . $value;
+			$key2++;
 		}
+
 		$timestamp = time();
 		
 		$link = mysqli_connect($sql_host, $sql_user, $sql_pass, $sql_db);
