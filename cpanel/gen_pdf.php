@@ -7,7 +7,7 @@ $errorJSON = array();
 if (!isset($_GET["id"]) || $_GET["id"] == NULL)
 {
 	$errorJSON["errcode"] = "01";
-	$errorJSON["message"] = "No answer to check.";
+	$errorJSON["message"] = "No response to check.";
 	die(json_encode($errorJSON));
 }
 else
@@ -15,7 +15,6 @@ else
 	$id = $_GET["id"];
 }
 
-// User's information
 $link = mysqli_connect($sql_host, $sql_user, $sql_pass, $sql_db);
 $query = mysqli_query($link, "SELECT * FROM `uanswers` WHERE `id` = \"".mysqli_real_escape_string($link, $id)."\"");
 
