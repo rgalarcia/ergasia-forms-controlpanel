@@ -295,7 +295,9 @@ mysqli_close($link);
 						?>
 						
 			<?php
-			if ($options!="specific") echo "</tbody></table>";
+			if ($options!="specific") echo "</tbody>
+			</table>
+			";
 			
 			?>
 			</div>
