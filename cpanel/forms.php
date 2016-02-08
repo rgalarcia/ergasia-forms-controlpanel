@@ -31,7 +31,8 @@
 			var preguntes = [];
 			var data_array = [];
 	  
-			$( "#catsbutton" ).on("click", function() {
+			//Append a number of additional categories
+			$("#append_new_cats").on("click", function() {
 				var numcats = $( "#numcats" ).val();
 				$( "#newcats" ).html("");
 				for (i = 1; i <= numcats; i++)
@@ -40,20 +41,22 @@
 					$( "#newcats" ).append("<div class=\"form-group col-lg-1\"><input type=\"text\" class=\"form-control\" id=\"cat".concat(i+9, "\" value=\"\" placeholder=\"Nom de la categoria\"></div><br><br>"));
 				} 
 	
-				$( "#newcats" ).append("<br><button type=\"button\" id=\"genformbutton\" class=\"btn btn-success\">Crear categories</button>");
+				$( "#newcats" ).append("<br><button type=\"button\" id=\"add_all_cats\" class=\"btn btn-success\">Crear categories</button>");
 			});
 
-			$( document.body ).on("click", "#genformbutton", function() {
+			//Append categories to an array and iterate over them
+			//to show them on screen
+			$( document.body ).on("click", "#add_all_cats", function() {
 				var i = 1;
 				while ( $("#cat".concat(i)).val() != undefined && $("#cat".concat(i)).val().trim() != "")
 				{		
-					if (((i <= 9 && $("#cat".concat(i)).prop('checked')) || i > 9) && $("#cat".concat(i)).val() != "")
+					if (((i <= 9 && $("#cat".concat(i)).prop('checked')) || i > 9))
 					{
 						categories.push($("#cat".concat(i)).val());		  
 					}
 					i++;
 				}
-	  
+				
 				$("#multipurpose").html("<h4><b>Pas 2 de 3</b> - Indiqui el número de preguntes de què constarà cada categoria:</h4><br><br>");  
 				for (i = 0; i < categories.length; i++)
 				{
@@ -61,18 +64,18 @@
 					$("#multipurpose").append("<label for=\"text\" class=\"col-sm-9 left-label\">".concat(categories[i], "</label><div class=\"col-sm-20\"><input type=\"text\" class=\"form-control\" id=\"numpc", i ,"\" name=\"nump\" placeholder=\"Nombre de preguntes\" value=\"\"></div><br>"));
 				}
 				if (categories.length == 0) $( "#multipurpose" ).append("<div class=\"alert alert-warning\" role=\"alert\"><strong>Atenció! </strong> El formulari ha de contenir com a mínim una categoria on afegir-hi preguntes. <a href=\"forms.php\">Tornar enrere.</a></div>");
-				else $( "#multipurpose" ).append("<br><button type=\"button\" id=\"genform2button\" class=\"btn btn-success\">Crear preguntes</button>");
-				
-				
+				else $( "#multipurpose" ).append("<br><button type=\"button\" id=\"append_questions\" class=\"btn btn-success\">Crear preguntes</button>");
 			});
   
-			$( document.body ).on("click", "#genform2button", function() {
+			//Append number of questions for category to an array
+			$( document.body ).on("click", "#append_questions", function() {
 				var i = 0;
 				var npreg = 0;
-				while ($("#numpc".concat(i)).val() != undefined && $("#numpc".concat(i)).val().trim() != "")
+				while ($("#numpc".concat(i)).val() != undefined)
 				{
-					numpreguntes.push($("#numpc".concat(i)).val());
-					if ($("#numpc".concat(i)).val() != "") npreg++;
+					if ($("#numpc".concat(i)).val().trim() != "" || $("#numpc".concat(i)).val() != 0) numpreguntes.push($("#numpc".concat(i)).val());
+					else numpreguntes.push(0);
+					npreg++;
 					i++;
 				}
 				
@@ -203,7 +206,7 @@
 					<div id="newcats">
 						<h5>També pot crear categories addicionals noves pel formulari:</h5><br>
 						<input class="form-control" id="numcats" placeholder="Nombre de categories" type="text">
-						<button type="button" id="catsbutton" class="btn btn-default">Endavant</button><br><br>
+						<button type="button" id="append_new_cats" class="btn btn-default">Endavant</button><br><br>
 						<h5>Si no en vol crear cap, premi directament "Endavant".</h5>
 					</div>
 				</div>
