@@ -49,10 +49,10 @@
 		if (!$query) echo "<div class=\"alert alert-danger\" role=\"alert\">Error de comunicación con la base de datos. Vuelva a intentarlo más tarde.</div>";
 		else echo "<div class=\"alert alert-success\" role=\"alert\">Gracias por contestar. Este formulario volverá a estar disponible la semana siguiente.</div>";
 		?>
-	<hr>
-	<footer>
-		<p>© 2016 Ergasia Seguretat, S.L.</p>
-	</footer>
+		<hr>
+		<footer>
+			<p>© 2016 Ergasia Seguretat, S.L.</p>
+		</footer>
     </div>
      
     <script src="./js/jquery.min.js"></script>
