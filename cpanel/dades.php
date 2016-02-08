@@ -273,7 +273,7 @@ mysqli_close($link);
 								echo "</tbody>
 				</table>";
 								
-								if($counter == 1)
+								if ($counter == 1)
 								{
 									echo "<h4>Respostes als formularis:</h4><br>";
 									$query2 = mysqli_query($link, "SELECT * from `uanswers` WHERE `telf` = ".mysqli_real_escape_string($link,$telf)."");
