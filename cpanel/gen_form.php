@@ -43,10 +43,10 @@ for ($i = 0; $i < count($jsondata); $i++)
 	}
 }
 
-trim($categories, "|");
-trim($questions, "|");
-trim($categories, "#");
-trim($questions, "#");
+$categories = trim($categories, "|");
+$questions = trim($questions, "|");
+$categories = trim($categories, "#");
+$questions = trim($questions, "#");
 
 //Inserting the 
 $link = mysqli_connect($sql_host, $sql_user, $sql_pass, $sql_db);
