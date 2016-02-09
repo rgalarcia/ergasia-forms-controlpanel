@@ -31,53 +31,81 @@
 			var preguntes = [];
 			var data_array = [];
 	  
-			//Append a number of additional categories
+			//Appends a number of additional categories (or not!)
+			//according to the input specified by the user
+			
 			$("#append_new_cats").on("click", function() {
-				var numcats = $( "#numcats" ).val();
-				$( "#newcats" ).html("");
+				var numcats = $("#num_cats_to_append").val();
+				$("#newcats").html("");
+				
+				//Loop from 1 to the number of categories specified by the user
+				//If the input is not a number, the loop would not run, thus no
+				//new categories will be appended
 				for (i = 1; i <= numcats; i++)
 				{
-					if (i == 1) $( "#newcats" ).append("<h5>Ha escollit crear categories addicionals. Indiqui el nom de cadascuna de les noves categories:</h5><br>");
-					$( "#newcats" ).append("<div class=\"form-group col-lg-1\"><input type=\"text\" class=\"form-control\" id=\"cat".concat(i+9, "\" value=\"\" placeholder=\"Nom de la categoria\"></div><br><br>"));
+					if (i == 1) $("#newcats").append("<h5>Ha escollit crear categories addicionals. Indiqui el nom de cadascuna de les noves categories:</h5><br>");
+					$("#newcats").append("<div class=\"form-group col-lg-1\"><input type=\"text\" class=\"form-control\" id=\"cat".concat(i+9, "\" value=\"\" placeholder=\"Nom de la categoria\"></div><br><br>"));
 				} 
 	
-				$( "#newcats" ).append("<br><button type=\"button\" id=\"add_all_cats\" class=\"btn btn-success\">Crear categories</button>");
+				$("#newcats").append("<br><button type=\"button\" id=\"add_all_cats\" class=\"btn btn-success\">Crear categories</button>");
 			});
 
-			//Append categories to an array and iterate over them
-			//to show them on screen
-			$( document.body ).on("click", "#add_all_cats", function() {
+			//We use the document.body in the .on method to detect a click on the 
+			//add_all_cats button because it is a dinamically appended button
+			//When add_all_cats is clicked, we loop to through the check-box categories,
+			//determining which of them have been selected, and we loop through the additional
+			//categories as well dertermining which of them have been filled with some text
+			
+			//We save these categories in a categories array which will be used later
+			//in company of the questions array, in which various questions will be tied to
+			//a especific category
+			
+			$(document.body).on("click", "#add_all_cats", function() {
+				//We save the categories in a category array
 				var i = 1;
 				while ( $("#cat".concat(i)).val() != undefined)
 				{		
 					if ( (i <= 9 && $("#cat".concat(i)).prop('checked')) || (i > 9 && $("#cat".concat(i)).val().trim() != "") )
 					{
-						categories.push($("#cat".concat(i)).val());		  
+						categories.push($("#cat".concat(i)).val().trim());		  
 					}
 					i++;
 				}
 				
+				//We loop through the categories array and append the created categories to the HTML of the
+				//page acompanied by an input to specify the number of questions to add for each category
 				$("#multipurpose").html("<h4><b>Pas 2 de 3</b> - Indiqui el número de preguntes de què constarà cada categoria:</h4><br><br>");  
 				for (i = 0; i < categories.length; i++)
 				{
 
 					$("#multipurpose").append("<label for=\"text\" class=\"col-sm-9 left-label\">".concat(categories[i], "</label><div class=\"col-sm-20\"><input type=\"text\" class=\"form-control\" id=\"numpc", i ,"\" name=\"nump\" placeholder=\"Nombre de preguntes\" value=\"\"></div><br>"));
 				}
+				
+				//If there are not any categories, we must tell the user it is mandatory to set at least one category
 				if (categories.length == 0) $( "#multipurpose" ).append("<div class=\"alert alert-warning\" role=\"alert\"><strong>Atenció! </strong> El formulari ha de contenir com a mínim una categoria on afegir-hi preguntes. <a href=\"forms.php\">Tornar enrere.</a></div>");
-				else $( "#multipurpose" ).append("<br><button type=\"button\" id=\"append_questions\" class=\"btn btn-success\">Crear preguntes</button>");
+				else $("#multipurpose").append("<br><button type=\"button\" id=\"append_questions\" class=\"btn btn-success\">Crear preguntes</button>");
+			
+				//Debugging verbose
+				console.log(categories);			
 			});
-  
-			console.log(categories);
-			console.log(preguntes);
-			//Append number of questions for category to an array
-			$( document.body ).on("click", "#append_questions", function() {
+			
+			//Append number of questions for each category to an array
+			$(document.body).on("click", "#append_questions", function() {
 				var i = 0;
 				var npreg = 0;
+
 				while ($("#numpc".concat(i)).val() != undefined)
 				{
-					if ($("#numpc".concat(i)).val().trim() != "" || $("#numpc".concat(i)).val() != 0) numpreguntes.push($("#numpc".concat(i)).val());
-					else numpreguntes.push(0);
-					npreg++;
+					if ($("#numpc".concat(i)).val().trim() != "" && $("#numpc".concat(i)).val() != 0)
+					{
+						numpreguntes.push($("#numpc".concat(i)).val());
+						npreg++;
+					}
+					else
+					{
+						numpreguntes.push(0);
+					}						
+
 					i++;
 				}
 				
@@ -94,19 +122,33 @@
 					}
 		  
 				}
-				if (npreg == 0) $( "#multipurpose" ).append("<div class=\"alert alert-warning\" role=\"alert\"><strong>Atenció! </strong> El formulari ha de contenir com a mínim una pregunta. <a href=\"forms.php\">Tornar enrere.</a></div>");
-				else $( "#multipurpose" ).append("<br><button type=\"button\" id=\"genformfinal\" class=\"btn btn-success\">Generar formulari</button>");
-			});
+				if (npreg == 0) $("#multipurpose").append("<div class=\"alert alert-warning\" role=\"alert\"><strong>Atenció! </strong> El formulari ha de contenir com a mínim una pregunta. <a href=\"forms.php\">Tornar enrere.</a></div>");
+				else $("#multipurpose").append("<br><button type=\"button\" id=\"genformfinal\" class=\"btn btn-success\">Generar formulari</button>");
 			
+				//Debugging verbose
+				console.log(npreg);
+				console.log(numpreguntes);
+			});
+
+			//Append categories and questions for each category
 			$( document.body ).on("click", "#genformfinal", function() {
 				var i = 0;
 				var npreg = 0;
-				while ($("#numpc".concat(i)).val() != undefined && $("#numpc".concat(i)).val().trim() != "")
+				while ($("#numpc".concat(i)).val() != undefined)
 				{
-					preguntes.push($("#numpc".concat(i)).val());
-					if ($("#numpc".concat(i)).val() != "") npreg++;
+					if ($("#numpc".concat(i)).val().trim() != "")
+					{
+						preguntes.push($("#numpc".concat(i)).val());
+						npreg++;
+					}
+					else
+					{
+						preguntes.push("");
+					}
 					i++;
 				}
+				
+				console.log(preguntes);
 				
 				var iter = 0;
 				for (i = 0; i < categories.length; i++)
@@ -124,11 +166,11 @@
 				
 				if (npreg == 0)
 				{
-					$( "#multipurpose" ).html("<div class=\"alert alert-warning\" role=\"alert\"><strong>Atenció! </strong> El formulari ha de contenir com a mínim una pregunta. <a href=\"forms.php\">Tornar enrere.</a></div>");
+					$("#multipurpose").html("<div class=\"alert alert-warning\" role=\"alert\"><strong>Atenció! </strong> El formulari ha de contenir com a mínim una pregunta. <a href=\"forms.php\">Tornar enrere.</a></div>");
 				}
 				else
 				{
-					$( "#multipurpose" ).html("<div><img src=\"treballant.gif\"  style=\"margin: 5px 100px 5px 5px; float: left;\"><br><br><h4>Estem treballant per generar el formulari...</h4></div><br><br><br>");
+					$("#multipurpose").html("<div><img src=\"treballant.gif\"  style=\"margin: 5px 100px 5px 5px; float: left;\"><br><br><h4>Estem treballant per generar el formulari...</h4></div><br><br><br>");
 					console.log(data_array);
 					var data = JSON.stringify(data_array);
 					
@@ -141,18 +183,17 @@
 						success: function (response) {							
 							if (response.status == "OK")
 							{
-								$( "#multipurpose" ).delay(1750).html("<div class=\"alert alert-success\" role=\"alert\">El <strong>formulari ".concat(response.form,"</strong> ha estat generat exitosament. <a href=\"../form/form",response.form,".php\" target=\"_blank\">Veure el formulari.</a></div>"));
+								$("#multipurpose").delay(1750).html("<div class=\"alert alert-success\" role=\"alert\">El <strong>formulari ".concat(response.form,"</strong> ha estat generat exitosament. <a href=\"../form/form",response.form,".php?master\" target=\"_blank\">Veure el formulari.</a></div>"));
 							}
 							else
 							{
-								$( "#multipurpose" ).delay(1750).html("<div class=\"alert alert-danger\" role=\"alert\"><strong>Error</strong> intentant generar el formulari. Si us plau, contacta un administrador. <a href=\"forms.php\">Tornar enrere.</a></div>");								
+								$("#multipurpose").delay(1750).html("<div class=\"alert alert-danger\" role=\"alert\"><strong>Error</strong> intentant generar el formulari. Si us plau, contacta un administrador. <a href=\"forms.php\">Tornar enrere.</a></div>");								
 							}
 						}
 					});
 				}
-				
-			});			
-  
+			});
+		
 		});
 	</script>
 	
@@ -207,7 +248,7 @@
 					
 					<div id="newcats">
 						<h5>També pot crear categories addicionals noves pel formulari:</h5><br>
-						<input class="form-control" id="numcats" placeholder="Nombre de categories" type="text">
+						<input class="form-control" id="num_cats_to_append" placeholder="Nombre de categories" type="text">
 						<button type="button" id="append_new_cats" class="btn btn-default">Endavant</button><br><br>
 						<h5>Si no en vol crear cap, premi directament "Endavant".</h5>
 					</div>
