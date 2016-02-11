@@ -12,8 +12,8 @@ if (!$link) die ("Database connection error");
 $result1 = mysqli_query($link, "SELECT `answered` FROM `users` WHERE `telf` = '" . mysqli_real_escape_string($link, $telf) . "';");
 $result1_array = mysqli_fetch_row($result1);
 
-if ($result1_array == NULL ) die("Aquest número de telèfon no té cap formulari associat.");
-else if ($result1_array[0] == 1) die("Ja has respost aquesta enquesta. Gràcies per participar.");
+if ($result1_array == NULL ) die("Este número de teléfono no tiene ningún formulario asociado.");
+else if ($result1_array[0] == 1) die("Ya ha respondido a esta encuesta. Volverá a estar disponible la semana que viene.");
 
 
 //The user exists and it has not answered the form yet, send the user to the form
