@@ -39,7 +39,7 @@
 		$result1_array = mysqli_fetch_row($result1);
 
 		if ($result1_array == NULL ) die("<div class=\"alert alert-danger\" role=\"alert\">Este número de teléfono no tiene ningún formulario asociado. Póngase en contacto con Ergasia.</div>");
-		else if ($result1_array[0] == 1) die("<div class=\"alert alert-success\" role=\"alert\">Ya ha respondido a esta encuesta. Volverá a estar disponible la semana que viene.</div>");
+		else if ($result1_array[0] == 1) die("<div class=\"alert alert-success\" role=\"alert\">Ya ha respondido a este formulario. Volverá a estar disponible la semana que viene.</div>");
 
 
 		//The user exists and it has not answered the form yet, send the user to the form
