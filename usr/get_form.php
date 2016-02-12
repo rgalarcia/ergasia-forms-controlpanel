@@ -22,16 +22,18 @@
 <body>
 
     <div class="container">
+		<br>
+		<br>
 		<?php
 		include "sql_data.php";
 
 		//Get the telephone number from the user
 		if (isset($_GET["telf"])) $telf = $_GET["telf"];
-		else die ("Input error");
+		else die ();
 
 		//Check that the user is in the database, and that it has not answered the form yet
 		$link = mysqli_connect($sql_host, $sql_user, $sql_pass, $sql_db);
-		if (!$link) die ("Database connection error");
+		if (!$link) die ("<div class=\"alert alert-danger\" role=\"alert\">Error de comunicación con la base de dades. Vuelva a intentar-lo más tarde.</div>");
 
 		$result1 = mysqli_query($link, "SELECT `answered` FROM `users` WHERE `telf` = '" . mysqli_real_escape_string($link, $telf) . "';");
 		$result1_array = mysqli_fetch_row($result1);
@@ -41,10 +43,10 @@
 
 
 		//The user exists and it has not answered the form yet, send the user to the form
-		$result2 = mysqli_query($link, "SELECT `form` FROM `users` WHERE `telf` = '" . mysqli_real_escape_string($link, $telf) . "';");
+		$result2 = mysqli_query($link, "SELECT `form`,`business` FROM `users` WHERE `telf` = '" . mysqli_real_escape_string($link, $telf) . "';");
 		$result2_array = mysqli_fetch_row($result2);
 		mysqli_close($link);
-		header("Location: ../form/form" . $result2_array[0] . ".html");
+		header("Location: ../form/form" . $result2_array[0] . ".php?telf=" . $telf . "&business=" . $result2_array[1]);
 		?>
 		<hr>
 		<footer>
