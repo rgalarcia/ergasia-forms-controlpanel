@@ -88,7 +88,7 @@ if ($query)
 	}
 	?>
 <!DOCTYPE html>
-<html lang=\"ca\">
+<html lang=\"es\">
 
 <head>
 
