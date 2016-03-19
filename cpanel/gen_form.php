@@ -112,6 +112,25 @@ if ($query)
 
 	// <body> of the form's HTML code
 	$body = "<body>
+	<script src=\"../cpanel/js/jquery-1.12.0.min.js\"></script>
+	<script>
+		$(document).ready( function(){
+			$(\".valorriesgo\").hide();
+			
+			$('input[type=\"radio\"]').click(function() {
+				var radio = $(this).attr('class');
+				if(radio == undefined)
+				{
+					radio = $(this).attr('name');
+					$(\"#\".concat(radio)).hide();
+				}
+				else
+				{
+					$(\"#\".concat(radio)).show();
+				}
+			});
+		});
+	</script>
     <div class=\"container\">
     <h3>INSPECCIÓN CONTINUA DE SEGURIDAD</h3>
     <h4>EMPRESA: <?php if(isset(\$_GET[\"business\"])) echo \$_GET[\"business\"]; else echo \"N/A\"; ?></h4> 
@@ -149,13 +168,15 @@ if ($query)
 							<center>
 							<label class=\"radio-inline\"><input type=\"radio\" value=\"N/A\" name=\"".($i+1).($j-1)."aoptradio\" required>N/A&nbsp;</label>
 							<label class=\"radio-inline\"><input type=\"radio\" value=\"B\" name=\"".($i+1).($j-1)."aoptradio\">B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-							<label class=\"radio-inline\"><input type=\"radio\" value=\"M\" name=\"".($i+1).($j-1)."aoptradio\">M&nbsp;&nbsp;&nbsp;</label><br>
+							<label class=\"radio-inline\"><input type=\"radio\" value=\"M\" class=\"".($i+1).($j-1)."aoptradio\" name=\"".($i+1).($j-1)."aoptradio\">M&nbsp;&nbsp;&nbsp;</label><br>
 							<br>
+							<div class=\"valorriesgo\" id=\"".($i+1).($j-1)."aoptradio\">
 							<p><i>Valor del riesgo</i></p>
 							
-							<label class=\"radio-inline\"><input type=\"radio\" value=\"Alto\" name=\"".($i+1).($j-1)."boptradio\" required>Alto</label>
-							<label class=\"radio-inline\"><input type=\"radio\" value=\"Medio\" name=\"".($i+1).($j-1)."boptradio\">Medio</label>
-							<label class=\"radio-inline\"><input type=\"radio\" value=\"Bajo\" name=\"".($i+1).($j-1)."boptradio\">Bajo</label>
+							<label class=\"radio-inline\"><input type=\"radio\" value=\"Alto\" class=\"\" name=\"".($i+1).($j-1)."boptradio\">Alto</label>
+							<label class=\"radio-inline\"><input type=\"radio\" value=\"Medio\" class=\"\" name=\"".($i+1).($j-1)."boptradio\" checked>Medio</label>
+							<label class=\"radio-inline\"><input type=\"radio\" value=\"Bajo\" class=\"\" name=\"".($i+1).($j-1)."boptradio\">Bajo</label>
+							</div>
 							</center>
 						</div>
 					</div>

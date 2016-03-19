@@ -124,10 +124,11 @@ $pdf->Cell(0, 5,'LEYENDA:', 0, 1);
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(0, 5,'N/A: No aplicable.', 0, 1);
 $pdf->Cell(0, 5,'B: Bien, condiciones correctas.', 0, 1);
-$pdf->Cell(0, 5,utf8_decode('N/A: Mal, faltan condiciones de seguridad, se anota en la última página las medidas solicitadas y tomadas.'), 0, 1);
+$pdf->Cell(0, 5,utf8_decode('M: Mal, faltan condiciones de seguridad, se anota en la última página las medidas solicitadas y tomadas.'), 0, 1);
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(0, 5,'RIESGO:', 0, 1);
 $pdf->SetFont('Arial', '', 9);
+$pdf->Cell(0, 5,'(Si se selecciona M)', 0, 1);
 $pdf->Cell(0, 5,'Bajo - Medio - Alto', 0, 1);
 $pdf->Ln();
 
@@ -142,7 +143,7 @@ for ($i = 0; $i < count($ans_cat_explode); $i++)
 	
 }
 
-for ($i = 0; $i < count($cat_explode); $i++)
+for ($i = 0; $i < count($que_cat_explode); $i++)
 {	
 	$pdf->SetFont('Arial', 'B', 12);
 	$pdf->Cell(0, 5, $cat_explode[$i], 0, 1);
@@ -150,11 +151,12 @@ for ($i = 0; $i < count($cat_explode); $i++)
 	
 	$que_explode = explode("|", $que_cat_explode[$i]);
 	
-	for ($j = 0; $j < count($que_explode); $j++)
+	for ($j = 0; $j < count($ans_explode); $j++)
 	{
 		$pdf->SetFont('Arial', 'I', 9);
 		$pdf->SetX(25);
-		$pdf->MultiCell(50, 5, ($j+1).".- ". $que_explode[$j] . ':    ' . $ans_explode[$j][0] . '     ' . $ans_explode[$j][1], 0, 1);
+		if ($ans_explode[$j][0] == "M") $pdf->MultiCell(50, 5, ($j+1).".- ". $que_explode[$j] . ':    ' . $ans_explode[$j][0] . '     RIESGO:    ' . $ans_explode[$j][1], 0, 1);
+		else $pdf->MultiCell(50, 5, ($j+1).".- ". $que_explode[$j] . ':    ' . $ans_explode[$j][0], 0, 1);
 		$pdf->Ln();
 	}
 }
