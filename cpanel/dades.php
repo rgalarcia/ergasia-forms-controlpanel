@@ -148,12 +148,14 @@ mysqli_close($link);
 					
 						<?php
 						$link = mysqli_connect($sql_host, $sql_user, $sql_pass, $sql_db);
+						// If either a general view or editing a user is being requested...
 						if ($options == false || $options == "edit")
 						{
 							$i = 1;
 					
 							while ($data_array = mysqli_fetch_array($data))
 							{
+								// If editing has been requested...
 								if (isset($usr) && $data_array["telf"] == $usr)
 								{
 									$resposta = $data_array["answered"]?"Sí":"No";
@@ -179,9 +181,15 @@ mysqli_close($link);
 									echo "</select>";
 									echo "</td>";
 										
-									echo "<td>$resposta</td>";
 									echo "<td>
-									<button type=\"submit\"  class=\"btn btn-default\" align=\"left\" aria-label=\"Save changes\">
+									<select multiple class=\"form-control\" id=\"answered\" name=\"answered\">
+									<option id=\"answered\" class=\"answered\" value=\"0\">No</option>
+									<option id=\"answered\" class=\"answered\" value=\"1\">Sí</option>
+									</select>
+									</td>";
+									
+									echo "<td>
+									<button type=\"submit\"  class=\"btn btn-default\" align=\"left\" aria-label=\"Desar canvis\">
 									<span class=\"glyphicon glyphicon-ok gi-5x\" aria-hidden=\"true\"></span>
 									</button>
 									</td>";
@@ -192,8 +200,8 @@ mysqli_close($link);
 									</td>
 									</tr>"; 
 									echo "</form>";
-									$i++;
 								}
+								// No editing requested
 								else
 								{
 									$resposta = $data_array["answered"]?"<a href=\"dades.php?name=" . $data_array["name"] . "\">Sí</a>":"No";
@@ -234,11 +242,12 @@ mysqli_close($link);
 										</td>
 										</tr>"; 										
 									}
-									
-									$i++;
 								}
+								
+								$i++;
 							}
 						}
+						// The information of a specific user is being requested
 						else
 						{
 							if ($data)

@@ -46,6 +46,13 @@ else
 		
 	}
 	
+	if (isset($_POST["answered"]) && $_POST["answered"] != NULL && is_numeric($_POST["answered"]))
+	{
+		$answered = strip_tags($_POST["answered"]);
+		mysqli_query($link, "UPDATE `users` SET `answered` = '" . mysqli_real_escape_string($link, $answered) . "' WHERE `telf` ='" . mysqli_real_escape_string($link, $ortelf) . "'");
+		$change = true;
+	}
+	
 	if (isset($_POST["telf"]) && $_POST["telf"] != NULL && is_numeric($_POST["telf"]) && !(strlen($_POST["telf"]) < 9 || strlen($_POST["telf"]) > 11))		
 	{
 		$telf = strip_tags($_POST["telf"]);
