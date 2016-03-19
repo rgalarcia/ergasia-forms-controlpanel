@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="es">
 
 <head>
@@ -17,7 +18,7 @@
 	<link href="../cpanel/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 	<link href="../cpanel/css/jumbotron.css" rel="stylesheet">
 	<script src="../cpanel/js/ie-emulation-modes-warning.js"></script>
-
+	
 </head>
 <body>
 	<div class="container" style="padding: 30px 20px 20px 20px">
@@ -25,7 +26,8 @@
 		<?php
 		include "sql_data.php";
 
-		$uri = explode ("?", $_SERVER["HTTP_REFERER"]);
+		$uri = explode ("/form/form", $_SERVER["HTTP_REFERER"]);
+		$uri = explode ("?", $uri[1]);
 		$form = filter_var ($uri[0], FILTER_SANITIZE_NUMBER_INT);
 		if (!isset($_GET["telf"]) || $_GET["telf"] == NULL) die();
 		else $telf = $_GET["telf"];
@@ -61,6 +63,7 @@
 		{
 			if ($result["answered"] != 1)
 			{
+				
 				$query2 = mysqli_query($link, "UPDATE `users` SET `answered`=1 WHERE `telf`=\"".mysqli_real_escape_string($link, $telf)."\"");
 				$query = mysqli_query($link, "INSERT INTO `uanswers`(`form`,`telf`,`obra`,`answers`,`comment`,`timestamp`) VALUES (\"".mysqli_real_escape_string($link, $form)."\", 
 				\"".mysqli_real_escape_string($link, $telf)."\", \"".mysqli_real_escape_string($link, $obra)."\", \"".mysqli_real_escape_string($link, $answers)."\",
@@ -68,6 +71,7 @@
 
 				if (!$query) echo "<div class=\"alert alert-danger\" role=\"alert\">Error de comunicación con la base de dades. Vuelva a intentar-lo más tarde.</div>";
 				else echo "<div class=\"alert alert-success\" role=\"alert\">Gracias por contestar. Este formulario volverá a estar disponible la semana que viene.</div>";
+				
 			}
 			else
 			{

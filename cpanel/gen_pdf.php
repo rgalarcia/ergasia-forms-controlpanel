@@ -136,28 +136,36 @@ $pdf->Ln();
 $cat_explode = explode ("|", $cat_array);
 $que_cat_explode = explode ("#", $que_array);
 $ans_cat_explode = explode("#", $ans_array);
+// var_dump ($cat_explode);
+// var_dump ($que_cat_explode);
+// var_dump ($ans_cat_explode);
+
 
 for ($i = 0; $i < count($ans_cat_explode); $i++)
 {
 	$ans_explode[$i] =  explode("|", $ans_cat_explode[$i]);
 	
 }
-
-for ($i = 0; $i < count($que_cat_explode); $i++)
+	$count = 0;
+for ($i = 0; $i < count($cat_explode); $i++)
 {	
 	$pdf->SetFont('Arial', 'B', 12);
 	$pdf->Cell(0, 5, $cat_explode[$i], 0, 1);
 	$pdf->Ln();
 	
 	$que_explode = explode("|", $que_cat_explode[$i]);
+	// var_dump ($que_explode);
+	// var_dump ($ans_explode);
+	// die();
 	
-	for ($j = 0; $j < count($ans_explode); $j++)
+	for ($j = 0; $j < count($que_explode); $j++)
 	{
 		$pdf->SetFont('Arial', 'I', 9);
 		$pdf->SetX(25);
-		if ($ans_explode[$j][0] == "M") $pdf->MultiCell(50, 5, ($j+1).".- ". $que_explode[$j] . ':    ' . $ans_explode[$j][0] . '     RIESGO:    ' . $ans_explode[$j][1], 0, 1);
-		else $pdf->MultiCell(50, 5, ($j+1).".- ". $que_explode[$j] . ':    ' . $ans_explode[$j][0], 0, 1);
+		if ($ans_explode[$count][0] == "M") $pdf->MultiCell(50, 5, ($j+1).".- ". $que_explode[$j] . ':    ' . $ans_explode[$count][0] . '     RIESGO:    ' . $ans_explode[$count][1], 0, 1);
+		else $pdf->MultiCell(50, 5, ($j+1).".- ". $que_explode[$j] . ':    ' . $ans_explode[$count][0], 0, 1);
 		$pdf->Ln();
+		$count++;
 	}
 }
 
