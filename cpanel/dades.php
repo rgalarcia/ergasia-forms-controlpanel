@@ -169,7 +169,7 @@ mysqli_close($link);
 									//echo "<td><input id=\"form\" class=\"form-control\" type=\"text\" value=\"\" placeholder=\"Formulari " . $data_array["form"] . " \" name=\"form\"></input></td>";
 
 									echo "<td>";
-									$query = mysqli_query($link, "SELECT `form` FROM `forms` WHERE 1 ORDER BY `form` DESC LIMIT 150");
+									$query = mysqli_query($link, "SELECT `form` FROM `forms` WHERE 1 ORDER BY `id` DESC LIMIT 150");
 										
 									$counter = 1;
 									echo "<select multiple class=\"form-control\" id=\"form\" name=\"form\">";

@@ -183,7 +183,7 @@
 						success: function (response) {							
 							if (response.status == "OK")
 							{
-								$("#multipurpose").delay(1750).html("<div class=\"alert alert-success\" role=\"alert\">El <strong>formulari ".concat(response.form,"</strong> ha estat generat exitosament. <a href=\"../form/form",response.form,".php?master\" target=\"_blank\">Veure el formulari.</a></div>"));
+								$("#multipurpose").delay(1750).html("<div class=\"alert alert-success\" role=\"alert\">El <strong>formulari ".concat(response.form,"</strong> ha estat generat exitosament. <a href=\"../form/process_form.php?id=",response.form,"&master\" target=\"_blank\">Veure el formulari.</a></div>"));
 							}
 							else
 							{

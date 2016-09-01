@@ -48,7 +48,7 @@ if ($result == NULL)
 
 //Form's information
 $form = $result["form"];
-$query2 = mysqli_query($link, "SELECT * FROM `forms` WHERE `form` = \"".mysqli_real_escape_string($link, $form)."\"");
+$query2 = mysqli_query($link, "SELECT * FROM `forms` WHERE `id` = \"".mysqli_real_escape_string($link, $form)."\"");
 $f_result = mysqli_fetch_array($query2);
 
 //Answer's information
@@ -136,10 +136,6 @@ $pdf->Ln();
 $cat_explode = explode ("|", $cat_array);
 $que_cat_explode = explode ("#", $que_array);
 $ans_cat_explode = explode("#", $ans_array);
-// var_dump ($cat_explode);
-// var_dump ($que_cat_explode);
-// var_dump ($ans_cat_explode);
-
 
 for ($i = 0; $i < count($ans_cat_explode); $i++)
 {
@@ -154,9 +150,6 @@ for ($i = 0; $i < count($cat_explode); $i++)
 	$pdf->Ln();
 	
 	$que_explode = explode("|", $que_cat_explode[$i]);
-	// var_dump ($que_explode);
-	// var_dump ($ans_explode);
-	// die();
 	
 	for ($j = 0; $j < count($que_explode); $j++)
 	{

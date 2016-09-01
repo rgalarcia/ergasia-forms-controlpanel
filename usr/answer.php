@@ -13,7 +13,7 @@
 	<meta name="author" content="">
 	<link rel="icon" href="../favicon.ico">
 
-	<title>Gràcies per participar</title>
+	<title>Gracias por contestar</title>
 	<link href="../cpanel/css/bootstrap.min.css" rel="stylesheet">
 	<link href="../cpanel/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 	<link href="../cpanel/css/jumbotron.css" rel="stylesheet">
@@ -26,8 +26,8 @@
 		<?php
 		include "sql_data.php";
 
-		$uri = explode ("/form/form", $_SERVER["HTTP_REFERER"]);
-		$uri = explode ("?", $uri[1]);
+		$uri = explode ("=", $_SERVER["HTTP_REFERER"]);
+		$uri = explode ("&", $uri[1]);
 		$form = filter_var ($uri[0], FILTER_SANITIZE_NUMBER_INT);
 		if (!isset($_GET["telf"]) || $_GET["telf"] == NULL) die();
 		else $telf = $_GET["telf"];

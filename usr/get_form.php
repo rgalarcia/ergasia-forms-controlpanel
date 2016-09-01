@@ -12,7 +12,7 @@
 	<meta name="author" content="">
 	<link rel="icon" href="../favicon.ico">
 
-	<title>Formulari 1 - Ergasia Seguretat S.L.</title>
+	<title>Formulario - Ergasia Seguretat S.L.</title>
 	<link href="../cpanel/css/bootstrap.min.css" rel="stylesheet">
 	<link href="../cpanel/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 	<link href="../cpanel/css/jumbotron.css" rel="stylesheet">
@@ -33,7 +33,7 @@
 
 		//Check that the user is in the database, and that it has not answered the form yet
 		$link = mysqli_connect($sql_host, $sql_user, $sql_pass, $sql_db);
-		if (!$link) die ("<div class=\"alert alert-danger\" role=\"alert\">Error de comunicación con la base de dades. Vuelva a intentar-lo más tarde.</div>");
+		if (!$link) die ("<div class=\"alert alert-danger\" role=\"alert\">Error de comunicación con la base de datos. Vuelva a intentar-lo más tarde.</div>");
 
 		$result1 = mysqli_query($link, "SELECT `answered` FROM `users` WHERE `telf` = '" . mysqli_real_escape_string($link, $telf) . "';");
 		$result1_array = mysqli_fetch_row($result1);
@@ -46,7 +46,7 @@
 		$result2 = mysqli_query($link, "SELECT `form`,`business` FROM `users` WHERE `telf` = '" . mysqli_real_escape_string($link, $telf) . "';");
 		$result2_array = mysqli_fetch_row($result2);
 		mysqli_close($link);
-		header("Location: ../form/form" . $result2_array[0] . ".php?telf=" . $telf . "&business=" . $result2_array[1]);
+		header("Location: ../form/process_form.php?id=" . $result2_array[0] . "&telf=" . $telf . "&business=" . $result2_array[1]);
 		?>
 		<hr>
 		<footer>

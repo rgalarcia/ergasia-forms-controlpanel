@@ -116,7 +116,7 @@
 					<?php
 						include "sql_data.php";
 						$link = mysqli_connect($sql_host, $sql_user, $sql_pass, $sql_db);
-						$query = mysqli_query($link, "SELECT `form` FROM `forms` WHERE 1 ORDER BY `form` DESC LIMIT 350");
+						$query = mysqli_query($link, "SELECT `form` FROM `forms` WHERE 1 ORDER BY `id` DESC LIMIT 350");
 						
 						$counter = 1;
 						echo "<select multiple=\"\" class=\"form-control\" id=\"form\" name=\"form\">";
