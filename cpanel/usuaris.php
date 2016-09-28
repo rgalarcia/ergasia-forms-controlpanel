@@ -116,7 +116,7 @@
 					<?php
 						include "sql_data.php";
 						$link = mysqli_connect($sql_host, $sql_user, $sql_pass, $sql_db);
-						$query = mysqli_query($link, "SELECT `form` FROM `forms` WHERE 1 ORDER BY `id` DESC LIMIT 350");
+						$query = mysqli_query($link, "SELECT `id` FROM `forms` WHERE 1 ORDER BY `id` DESC LIMIT 350");
 						
 						$counter = 1;
 						echo "<select multiple=\"\" class=\"form-control\" id=\"form\" name=\"form\">";
@@ -160,7 +160,7 @@
 					switch (event.which)
 					{
 						case 3:
-							var wdow = window.open('../form/form$i.php?master', '_blank');
+							var wdow = window.open('../form/process_form.php?id=$i&master', '_blank');
 							if (wdow == undefined)
 							{
 								alert(\"Si us plau, activi els pop-ups pel Panell de control.\");

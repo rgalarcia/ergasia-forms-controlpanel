@@ -64,13 +64,13 @@
 			if ($result["answered"] != 1)
 			{
 				
-				$query2 = mysqli_query($link, "UPDATE `users` SET `answered`=1 WHERE `telf`=\"".mysqli_real_escape_string($link, $telf)."\"");
+				$query2 = mysqli_query($link, "UPDATE `users` SET `answered`=0 WHERE `telf`=\"".mysqli_real_escape_string($link, $telf)."\"");
 				$query = mysqli_query($link, "INSERT INTO `uanswers`(`form`,`telf`,`obra`,`answers`,`comment`,`timestamp`) VALUES (\"".mysqli_real_escape_string($link, $form)."\", 
 				\"".mysqli_real_escape_string($link, $telf)."\", \"".mysqli_real_escape_string($link, $obra)."\", \"".mysqli_real_escape_string($link, $answers)."\",
 				\"".mysqli_real_escape_string($link, $comment)."\", \"".mysqli_real_escape_string($link, $timestamp)."\")");
 
 				if (!$query) echo "<div class=\"alert alert-danger\" role=\"alert\">Error de comunicación con la base de dades. Vuelva a intentar-lo más tarde.</div>";
-				else echo "<div class=\"alert alert-success\" role=\"alert\">Gracias por contestar. Este formulario volverá a estar disponible la semana que viene.</div>";
+				else echo "<div class=\"alert alert-success\" role=\"alert\">Gracias por contestar. Para responder de nuevo el formulario, reinicie la aplicación.</div>";
 				
 			}
 			else

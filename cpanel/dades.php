@@ -126,6 +126,12 @@ mysqli_close($link);
 			<br>
 			<br>";
 		}
+		else
+		{
+			echo "<a href=\"gen_csv.php?mode=userlist\">Descarregar la base de dades d'usuaris en format CSV</a>
+			<br>
+			<br>";
+		}
 		
 		?>
 		<div class="row">
@@ -139,7 +145,7 @@ mysqli_close($link);
 							<th>Empresa</th>
 							<th>NIF</th>
 							<th>Formulari</th>
-							<th>Resposta</th>
+							<?php if($options != "specific") echo "<th>Veure</th>"; ?>
 							<th>Editar</th>
 							<?php if($options == "edit") echo "<th>Eliminar</th>"; ?>
 						</tr>
@@ -158,7 +164,7 @@ mysqli_close($link);
 								// If editing has been requested...
 								if (isset($usr) && $data_array["telf"] == $usr)
 								{
-									$resposta = $data_array["answered"]?"Sí":"No";
+									//$resposta = $data_array["answered"]?"Sí":"No";
 									echo "<form action=\"update_user.php?modify=$usr\" method=\"POST\">";
 									echo "<tr>
 									<td>" . $i . "</td>";
@@ -169,7 +175,7 @@ mysqli_close($link);
 									//echo "<td><input id=\"form\" class=\"form-control\" type=\"text\" value=\"\" placeholder=\"Formulari " . $data_array["form"] . " \" name=\"form\"></input></td>";
 
 									echo "<td>";
-									$query = mysqli_query($link, "SELECT `form` FROM `forms` WHERE 1 ORDER BY `id` DESC LIMIT 150");
+									$query = mysqli_query($link, "SELECT `id` FROM `forms` WHERE 1 ORDER BY `id` DESC LIMIT 150");
 										
 									$counter = 1;
 									echo "<select multiple class=\"form-control\" id=\"form\" name=\"form\">";
@@ -180,12 +186,19 @@ mysqli_close($link);
 									}
 									echo "</select>";
 									echo "</td>";
-										
-									echo "<td>
+									/*echo "<td>
 									<select multiple class=\"form-control\" id=\"answered\" name=\"answered\">
 									<option id=\"answered\" class=\"answered\" value=\"0\">No</option>
 									<option id=\"answered\" class=\"answered\" value=\"1\">Sí</option>
 									</select>
+									</td>";*/
+									
+									echo "<td>
+									<a href=\"dades.php?name=" . $data_array["name"] . "\">
+									<button type=\"button\"  class=\"btn btn-default\" align=\"left\" aria-label=\"Edit user\">
+									<span class=\"glyphicon glyphicon-log-in gi-5x\" aria-hidden=\"true\"></span>
+									</button>
+									</a>
 									</td>";
 									
 									echo "<td>
@@ -204,7 +217,7 @@ mysqli_close($link);
 								// No editing requested
 								else
 								{
-									$resposta = $data_array["answered"]?"<a href=\"dades.php?name=" . $data_array["name"] . "\">Sí</a>":"No";
+									//$resposta = $data_array["answered"]?"<a href=\"dades.php?name=" . $data_array["name"] . "\">Sí</a>":"No";
 						
 									echo "<tr>
 									<td>" . $i . "</td>";
@@ -212,8 +225,15 @@ mysqli_close($link);
 									echo "<td>" . $data_array["name"] . "</td>";
 									echo "<td>" . $data_array["business"] . "</td>";
 									echo "<td>" . $data_array["NIF"] . "</td>";
-									echo "<td><a target =\"_blank\" href=\"../form/form" . $data_array["form"] . ".php?master\">Formulari " . $data_array["form"] . "</a></td>";
-									echo "<td>" . $resposta . "</td>";
+									echo "<td><a target =\"_blank\" href=\"../form/process_form.php?id=" . $data_array["form"] . "&master\">Formulari " . $data_array["form"] . "</a></td>";
+									//echo "<td>" . $resposta . "</td>";
+									echo "<td>
+									<a href=\"dades.php?name=" . $data_array["name"] . "\">
+									<button type=\"button\"  class=\"btn btn-default\" align=\"left\" aria-label=\"Edit user\">
+									<span class=\"glyphicon glyphicon-log-in gi-5x\" aria-hidden=\"true\"></span>
+									</button>
+									</a>
+									</td>";
 									
 									if($options != "edit")
 									{
@@ -228,7 +248,7 @@ mysqli_close($link);
 										";										
 									}
 									else
-									{
+									{									
 										echo "<td>
 										<a href=\"dades.php?edit=" . $data_array["telf"] . "\">
 										<button type=\"button\"  class=\"btn btn-default\" align=\"left\" aria-label=\"Edit user\">
@@ -255,7 +275,7 @@ mysqli_close($link);
 								$counter = 0;
 								do
 								{
-									$resposta = $data_array["answered"]?"Sí":"No";
+									//$resposta = $data_array["answered"]?"Sí":"No";
 									$telf = $data_array["telf"];
 					
 									echo "<tr>
@@ -264,8 +284,8 @@ mysqli_close($link);
 									echo "<td>" . $data_array["name"] . "</td>";
 									echo "<td>" . $data_array["business"] . "</td>";
 									echo "<td>" . $data_array["NIF"] . "</td>";
-									echo "<td><a target =\"_blank\" href=\"../form/form" . $data_array["form"] . ".php?master\">Formulari " . $data_array["form"] . "</a></td>";
-									echo "<td>" . $resposta . "</td>";
+									echo "<td><a target =\"_blank\" href=\"../form/process_form.php?id=" . $data_array["form"] . "&master\">Formulari " . $data_array["form"] . "</a></td>";
+									//echo "<td>" . $resposta . "</td>";
 									echo "<td>
 									<a href=\"dades.php?edit=" . $data_array["telf"] . "\">
 									<button type=\"button\"  class=\"btn btn-default\" align=\"left\" aria-label=\"Edit user\">
@@ -284,10 +304,15 @@ mysqli_close($link);
 								
 								if ($counter == 1)
 								{
-									echo "<h4>Respostes als formularis:</h4><br>";
-									$query2 = mysqli_query($link, "SELECT * from `uanswers` WHERE `telf` = ".mysqli_real_escape_string($link,$telf)."");
+									$query2 = mysqli_query($link, "SELECT * from `uanswers` WHERE `telf` = ".mysqli_real_escape_string($link,$telf)." ORDER BY `id` DESC");
 									if(!$query2) die("horror");
 									
+									$numforms = $query2->num_rows;
+									echo "<h4>Respostes als formularis ($numforms):</h4><br>";
+									
+									echo "<a href=\"gen_csv.php?mode=userinfo&telf=$telf\">Descarrega la informació sobre les respostes d'aquest usuari en format CSV</a><br><br>";
+									
+									$i = $numforms;
 									while($data2 = mysqli_fetch_array($query2))
 									{
 										$id_2 = $data2["id"];
@@ -295,7 +320,8 @@ mysqli_close($link);
 										$tstamp_2 = date("d/m/Y", $data2["timestamp"]);
 										
 										
-										echo "<h5>Resposta al <b>Formulari $form_2</b> el dia </b>$tstamp_2</b>: <a target=\"_blank\" href=\"gen_pdf.php?id=$id_2\">visualitzar i/o descarregar resposta en format PDF.</a></h5>";
+										echo "<h5>$i - Resposta al <b>Formulari $form_2</b> el dia </b>$tstamp_2</b>: <a target=\"_blank\" href=\"gen_pdf.php?id=$id_2\">visualitzar i/o descarregar resposta en format PDF.</a></h5>";
+										$i--;
 									}
 								}
 							}
@@ -329,7 +355,7 @@ mysqli_close($link);
 					switch (event.which)
 					{
 						case 3:
-							var wdow = window.open('../form/form$i.php?master', '_blank');
+							var wdow = window.open('../form/process_form.php?id=$i&master', '_blank');
 							if (wdow == undefined)
 							{
 								alert(\"Si us plau, activi els pop-ups pel Panell de control.\");
