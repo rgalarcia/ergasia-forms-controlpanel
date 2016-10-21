@@ -1,4 +1,10 @@
 ﻿<?php
+session_start();
+if (!isset($_SESSION["loggedin"]) or $_SESSION["loggedin"]==NULL) {
+	die(header('Location: login.php'));
+}
+?>
+<?php
 include "sql_data.php";
 
 $link = mysqli_connect($sql_host, $sql_user, $sql_pass, $sql_db);
@@ -17,21 +23,33 @@ if (isset($_GET["mode"]) && $_GET["mode"] != NULL)
 		header('Pragma: no-cache');
 		
 		echo "sep=," . PHP_EOL;
-		echo utf8_decode("telèfon, nom, empresa, NIF, formulari, respostes") . PHP_EOL;
+		echo utf8_decode("número resposta, telèfon, nom, empresa, NIF, formulari, dia, hora, obra, comentari, URL") . PHP_EOL;
 		
-		$data = mysqli_query($link, "SELECT * FROM `users`");
+		$data = mysqli_query($link, "SELECT * FROM `users` ORDER BY `business`");
+		if (!$data) die ("error1");
 		while($data_array = mysqli_fetch_array($data))
 		{
+			$numans=0;
 			$telf = $data_array["telf"];
 			$name = utf8_decode($data_array["name"]);
 			$business = utf8_decode($data_array["business"]);
 			$nif = $data_array["NIF"];
 			$form = $data_array["form"];
-			$data2 = mysqli_query($link, "SELECT * FROM `uanswers` WHERE `telf` = " . $telf);
-			$numforms = $data2->num_rows;
-			
-			echo "$telf, $name, $business, $nif, $form, $numforms" . PHP_EOL;
-			
+			$data2 = mysqli_query($link, "SELECT * FROM `uanswers` WHERE `telf` = \"" . mysqli_real_escape_string($link, $telf) . "\" ORDER BY `id`");
+			if (!$data2) die ("error2");
+			while($data2_array = mysqli_fetch_array($data2))
+			{
+				$timestamp = $data2_array["timestamp"];
+				$date = date("d/m/Y", $timestamp);
+				$time = date("H:i:s", $timestamp);
+				$obra = str_replace(",", " ", utf8_decode($data2_array["obra"]));
+				$comment = str_replace(",", " ", utf8_decode($data2_array["comment"]));
+				$aid = $data2_array["id"];
+				$url = "http://ergasia.nereid.es/cpanel/gen_pdf.php?id=" . $aid;
+				$numans+=1;
+				
+				echo "$numans, $telf, $name, $business, $nif, $form, $date, $time, $obra, $comment, $url" . PHP_EOL;
+			}
 		}
 	}
 	else if ($mode == "userinfo")

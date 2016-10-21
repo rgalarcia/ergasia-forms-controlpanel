@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (!isset($_SESSION["loggedin"]) or $_SESSION["loggedin"]==NULL) {
+	die(header('Location: login.php'));
+}
+?>
 <!DOCTYPE html>
 
 <html lang="ca">
@@ -221,6 +227,10 @@
 						<input class="form-control" id="name" name="name" placeholder="Cerca un usuari" type="text">
 					</div>
 					<button type="submit" class="btn btn-success">Cerca</button>
+				</form>
+				<form class="navbar-form navbar-right" action="dologout.php" method="get">
+					<input type="hidden" class="form-control" id="token" name="token" value="<?php echo $_SESSION["token"]; ?>">
+					<button type="submit" class="glyphicon glyphicon-log-out gi-10x"></button>
 				</form>
 			</div>
       </div>

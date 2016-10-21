@@ -1,4 +1,10 @@
 ﻿<?php
+session_start();
+if (!isset($_SESSION["loggedin"]) or $_SESSION["loggedin"]==NULL) {
+	die(header('Location: login.php'));
+}
+?>
+<?php
 error_reporting(-1);
 include "sql_data.php";
 

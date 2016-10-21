@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION["loggedin"]) or $_SESSION["loggedin"]==NULL) {
+	die(header('Location: login.php'));
+}
+?>
+<?php
 include "sql_data.php";
 require "/pdf/fpdf.php";
 
@@ -102,7 +108,7 @@ $pdf->Ln();
 $pdf->Cell(0, 5, 'Empresa: ' . utf8_decode($business), 0, 1);
 $pdf->Cell(0, 5, 'NIF: ' . $nif, 0, 1);
 $pdf->Cell(0, 5, 'Operari: ' . utf8_decode($name), 0, 1);
-$pdf->Cell(0, 5, 'Obra: ' . utf8_decode($obra), 0, 1);
+$pdf->Cell(0, 5, 'Centro/Obra: ' . utf8_decode($obra), 0, 1);
 $pdf->Cell(0, 5, 'Formulari: ' . $form, 0, 1);
 $pdf->Cell(0, 5, 'Data enviament: ' . date("d/m/Y", $timestamp), 0, 1);
 $pdf->Cell(0, 5, 'Hora enviament: ' . date("H:i:s", $timestamp), 0, 1);

@@ -85,7 +85,7 @@ if (!isset($_GET["master"]))
     <h3>INSPECCIÓN CONTINUA DE SEGURIDAD</h3>
     <h4>EMPRESA: <?php if(isset($_GET["business"])) echo $_GET["business"]; else echo "N/A"; ?></h4>
 		<form class="form-horizontal" id="answer" role="form" method="post" action="../usr/answer.php?telf=<?php if(isset($_GET["telf"])) echo $_GET["telf"]; ?>">
-			<h4>OBRA:</h4> <input type="text" class="form-control" id="obra" name="obra" placeholder="Nombre de la obra" value="" required>
+			<h4>CENTRO/OBRA:</h4> <input type="text" class="form-control" id="obra" name="obra" placeholder="Nombre de la obra" value="" required>
 			<hr>
 			<h4>LEYENDA:</h4>
 			<h5><strong>N/A:</strong> No aplicable.</h5>

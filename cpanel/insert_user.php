@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION["loggedin"]) or $_SESSION["loggedin"]==NULL) {
+	die(header('Location: login.php'));
+}
+?>
+<?php
 
 if (!isset($_POST["telf"]) || !isset($_POST["name"]) || !isset($_POST["business"]) || !isset($_POST["NIF"])) die(header("Location: usuaris.php?result=0"));
 else if (trim(strip_tags($_POST["telf"])) == NULL || trim(strip_tags($_POST["name"])) == NULL || trim(strip_tags($_POST["business"])) == NULL || trim(strip_tags($_POST["NIF"])) == NULL) die(header("Location: usuaris.php?result=0"));
